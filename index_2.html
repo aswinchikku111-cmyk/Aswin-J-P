@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aswin Prakash — Senior Graphic Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #050D1A;
+      --surface:  #0A1628;
+      --surface2: #0F1E36;
+      --border:   #162440;
+      --accent:   #2D7EFF;
+      --accent2:  #5B9FFF;
+      --glow:     rgba(45,126,255,0.18);
+      --glow2:    rgba(45,126,255,0.07);
+      --text:     #F0F4FF;
+      --text-mid: #8DA0BF;
+      --text-dim: #4A6285;
+      --green:    #00D4A0;
+      --purple:   #A855F7;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:var(--bg); }
+    ::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+    ::-webkit-scrollbar-thumb:hover { background:var(--accent); }
+
+    .mesh-bg {
+      position:fixed; inset:0; z-index:0; pointer-events:none;
+      background:
+        radial-gradient(ellipse 700px 500px at 15% 20%,rgba(45,126,255,0.10) 0%,transparent 70%),
+        radial-gradient(ellipse 500px 400px at 85% 75%,rgba(168,85,247,0.07) 0%,transparent 70%),
+        radial-gradient(ellipse 400px 300px at 60% 10%,rgba(0,212,160,0.05) 0%,transparent 70%);
+    }
+
+    /* Layout */
+    .layout { position:relative; z-index:1; display:grid; grid-template-columns:280px 1fr; min-height:100vh; }
+
+    /* Sidebar */
+    .sidebar {
+      position:sticky; top:0; height:100vh;
+      display:flex; flex-direction:column;
+      padding:48px 32px;
+      border-right:1px solid var(--border);
+      background:linear-gradient(180deg,rgba(10,22,40,0.97) 0%,rgba(5,13,26,0.99) 100%);
+      backdrop-filter:blur(12px);
+      overflow-y:auto; overflow-x:hidden;
+    }
+    .sidebar::before {
+      content:''; position:absolute; top:-80px; left:-80px;
+      width:240px; height:240px;
+      background:radial-gradient(circle,rgba(45,126,255,0.12),transparent 70%);
+      pointer-events:none;
+    }
+    .sidebar-logo { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; letter-spacing:-0.5px; color:var(--text); line-height:1.1; margin-bottom:4px; }
+    .sidebar-role { font-size:11px; font-weight:500; color:var(--accent); letter-spacing:2px; text-transform:uppercase; margin-bottom:28px; }
+    .sidebar-avatar {
+      width:72px; height:72px; border-radius:50%;
+      background:linear-gradient(135deg,var(--accent),var(--purple));
+      display:flex; align-items:center; justify-content:center;
+      font-family:'Syne',sans-serif; font-size:26px; font-weight:800; color:#fff;
+      margin-bottom:28px;
+      box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--border),0 0 24px rgba(45,126,255,0.3);
+      flex-shrink:0;
+    }
+    .nav-label { font-size:9px; font-weight:600; letter-spacing:2.5px; color:var(--text-dim); text-transform:uppercase; margin-bottom:10px; padding-left:4px; }
+    .nav-links { list-style:none; margin-bottom:28px; }
+    .nav-links li { margin-bottom:2px; }
+    .nav-links a {
+      display:flex; align-items:center; gap:10px;
+      padding:9px 12px; border-radius:6px;
+      font-size:13px; font-weight:500; color:var(--text-mid);
+      text-decoration:none; transition:all 0.2s;
+      border:1px solid transparent;
+    }
+    .nav-links a:hover,.nav-links a.active { color:var(--text); background:var(--surface2); border-color:var(--border); }
+    .nav-links a.active { color:var(--accent); }
+    .nav-dot { width:6px; height:6px; border-radius:50%; background:var(--text-dim); flex-shrink:0; transition:background 0.2s; }
+    .nav-links a:hover .nav-dot,.nav-links a.active .nav-dot { background:var(--accent); }
+    .sidebar-contact { margin-top:auto; }
+    .contact-item { display:flex; align-items:center; gap:8px; font-size:11.5px; color:var(--text-mid); margin-bottom:7px; text-decoration:none; transition:color 0.2s; }
+    .contact-item:hover { color:var(--accent); }
+    .sidebar-divider { height:1px; background:var(--border); margin:18px 0; }
+    .status-badge { display:inline-flex; align-items:center; gap:7px; padding:6px 12px; border-radius:20px; background:rgba(0,212,160,0.08); border:1px solid rgba(0,212,160,0.2); font-size:11px; font-weight:500; color:var(--green); }
+    .status-dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:pulse-green 2s infinite; }
+    @keyframes pulse-green { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+
+    /* Main */
+    .main { overflow-y:auto; }
+
+    /* Hero */
+    .hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:80px 72px; position:relative; border-bottom:1px solid var(--border); }
+    .hero::after { content:''; position:absolute; bottom:0; left:72px; right:72px; height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); opacity:0.4; }
+    .hero-eyebrow { display:flex; align-items:center; gap:12px; margin-bottom:28px; }
+    .hero-tag { font-size:11px; font-weight:600; letter-spacing:2px; color:var(--accent); text-transform:uppercase; }
+    .hero-line { height:1px; width:48px; background:var(--accent); opacity:0.5; }
+    .hero-name { font-family:'Syne',sans-serif; font-size:clamp(52px,6vw,88px); font-weight:800; line-height:0.95; letter-spacing:-3px; color:var(--text); margin-bottom:20px; }
+    .hero-name .accent-word { background:linear-gradient(135deg,var(--accent),var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .hero-sub { font-size:17px; font-weight:300; color:var(--text-mid); max-width:560px; line-height:1.65; margin-bottom:48px; }
+    .hero-stats { display:flex; gap:40px; margin-bottom:48px; flex-wrap:wrap; }
+    .stat-item { display:flex; flex-direction:column; gap:4px; }
+    .stat-num { font-family:'Syne',sans-serif; font-size:36px; font-weight:800; line-height:1; color:var(--text); }
+    .stat-num .unit { font-size:20px; color:var(--accent); }
+    .stat-label { font-size:12px; color:var(--text-dim); }
+    .stat-sep { width:1px; background:var(--border); align-self:stretch; }
+    .hero-cta { display:flex; gap:14px; flex-wrap:wrap; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:6px; font-family:'Inter',sans-serif; font-size:13px; font-weight:500; text-decoration:none; cursor:pointer; transition:all 0.2s; border:none; }
+    .btn-primary { background:var(--accent); color:#fff; box-shadow:0 0 20px rgba(45,126,255,0.3); }
+    .btn-primary:hover { background:var(--accent2); box-shadow:0 0 32px rgba(45,126,255,0.5); transform:translateY(-1px); }
+    .btn-ghost { background:transparent; color:var(--text-mid); border:1px solid var(--border); }
+    .btn-ghost:hover { background:var(--surface2); color:var(--text); border-color:var(--accent); }
+    .hero-grid-line { position:absolute; right:72px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:3px; }
+    .hgl { width:160px; height:1px; background:var(--border); }
+    .hgl:nth-child(2n) { width:100px; opacity:0.5; }
+
+    /* Sections */
+    section { padding:80px 72px; border-bottom:1px solid var(--border); position:relative; }
+    .section-header { margin-bottom:48px; }
+    .section-tag { font-size:10px; font-weight:600; letter-spacing:3px; color:var(--accent); text-transform:uppercase; margin-bottom:10px; }
+    .section-title { font-family:'Syne',sans-serif; font-size:36px; font-weight:700; letter-spacing:-1px; color:var(--text); line-height:1.1; }
+
+    /* ── PORTFOLIO SECTION ─────────────────────────────── */
+    .portfolio-meta { display:flex; align-items:center; justify-content:space-between; margin-bottom:48px; flex-wrap:wrap; gap:16px; }
+    .portfolio-meta .section-header { margin-bottom:0; }
+    .behance-link {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 20px; border-radius:6px;
+      font-size:13px; font-weight:500; color:var(--text-mid);
+      text-decoration:none; border:1px solid var(--border);
+      transition:all 0.2s; white-space:nowrap;
+    }
+    .behance-link:hover { color:var(--accent); border-color:var(--accent); background:var(--glow2); }
+
+    /* Filter bar */
+    .portfolio-filters { display:flex; gap:8px; margin-bottom:36px; flex-wrap:wrap; }
+    .filter-btn {
+      padding:6px 16px; border-radius:20px;
+      font-size:12px; font-weight:500; color:var(--text-dim);
+      background:transparent; border:1px solid var(--border);
+      cursor:pointer; transition:all 0.2s;
+    }
+    .filter-btn:hover { color:var(--text-mid); border-color:var(--text-dim); }
+    .filter-btn.active { color:var(--accent); border-color:var(--accent); background:rgba(45,126,255,0.08); }
+
+    /* Project grid */
+    .projects-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+
+    .project-card {
+      position:relative; border-radius:10px; overflow:hidden;
+      background:var(--surface); border:1px solid var(--border);
+      cursor:pointer; text-decoration:none; display:block;
+      transition:all 0.3s cubic-bezier(0.23,1,0.32,1);
+      group:true;
+    }
+    .project-card:hover {
+      border-color:rgba(45,126,255,0.45);
+      transform:translateY(-4px);
+      box-shadow:0 16px 48px rgba(0,0,0,0.5),0 0 0 1px rgba(45,126,255,0.12);
+    }
+
+    /* Thumbnail wrapper */
+    .proj-thumb {
+      position:relative; width:100%; padding-top:66%;
+      overflow:hidden; background:var(--surface2);
+    }
+    .proj-thumb img {
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; object-position:top;
+      transition:transform 0.5s cubic-bezier(0.23,1,0.32,1);
+    }
+    .project-card:hover .proj-thumb img { transform:scale(1.06); }
+
+    /* Overlay on hover */
+    .proj-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(160deg,rgba(45,126,255,0.75),rgba(168,85,247,0.55));
+      opacity:0; display:flex; align-items:center; justify-content:center;
+      transition:opacity 0.3s;
+      gap:12px;
+    }
+    .project-card:hover .proj-overlay { opacity:1; }
+    .overlay-btn {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:9px 18px; border-radius:5px;
+      font-size:12px; font-weight:600; color:#fff;
+      background:rgba(255,255,255,0.15);
+      border:1px solid rgba(255,255,255,0.3);
+      backdrop-filter:blur(6px);
+      transition:background 0.2s;
+    }
+    .overlay-btn:hover { background:rgba(255,255,255,0.25); }
+
+    /* Featured tag (first project) */
+    .proj-featured-tag {
+      position:absolute; top:12px; left:12px; z-index:2;
+      display:inline-flex; align-items:center; gap:5px;
+      padding:4px 10px; border-radius:4px;
+      font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+      background:linear-gradient(135deg,var(--accent),var(--purple));
+      color:#fff;
+    }
+    .proj-stats-tag {
+      position:absolute; top:12px; right:12px; z-index:2;
+      display:inline-flex; align-items:center; gap:6px;
+      padding:4px 9px; border-radius:4px;
+      font-size:10px; font-weight:500;
+      background:rgba(5,13,26,0.75); color:var(--text-mid);
+      backdrop-filter:blur(6px);
+      border:1px solid rgba(255,255,255,0.07);
+    }
+
+    /* Project info */
+    .proj-info { padding:18px 20px 20px; }
+    .proj-category { font-size:10px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent); margin-bottom:6px; opacity:0.8; }
+    .proj-title { font-family:'Syne',sans-serif; font-size:16px; font-weight:700; color:var(--text); margin-bottom:6px; line-height:1.3; }
+    .proj-desc { font-size:12.5px; color:var(--text-dim); line-height:1.55; }
+    .proj-footer { display:flex; align-items:center; justify-content:space-between; margin-top:14px; padding-top:14px; border-top:1px solid var(--border); }
+    .proj-views { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text-dim); }
+    .proj-likes { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text-dim); }
+    .proj-arrow { font-size:14px; color:var(--text-dim); transition:all 0.2s; }
+    .project-card:hover .proj-arrow { color:var(--accent); transform:translateX(3px); }
+
+    /* Featured card (first / hero project) spans 2 cols */
+    .project-card.featured { grid-column:span 2; }
+    .project-card.featured .proj-thumb { padding-top:52%; }
+    .project-card.featured .proj-title { font-size:20px; }
+
+    /* Skills */
+    .skills-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+    .skill-chip { display:flex; align-items:center; gap:10px; padding:12px 16px; background:var(--surface); border:1px solid var(--border); border-radius:6px; font-size:13px; color:var(--text-mid); font-weight:400; transition:all 0.2s; cursor:default; }
+    .skill-chip:hover { border-color:var(--accent); color:var(--text); background:var(--surface2); transform:translateY(-1px); }
+    .skill-chip::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--accent); flex-shrink:0; opacity:0.7; }
+    .skill-chip:hover::before { opacity:1; }
+
+    /* Tools */
+    .tools-row { display:flex; flex-wrap:wrap; gap:14px; margin-top:32px; }
+    .tool-card { display:flex; align-items:center; gap:12px; padding:16px 20px; background:var(--surface); border:1px solid var(--border); border-radius:8px; min-width:160px; transition:all 0.25s; }
+    .tool-card:hover { border-color:var(--accent); box-shadow:0 0 24px var(--glow2); transform:translateY(-2px); }
+    .tool-icon { width:36px; height:36px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; font-family:'Syne',sans-serif; flex-shrink:0; }
+    .tool-name { font-size:13px; font-weight:500; color:var(--text); }
+    .tool-sub { font-size:11px; color:var(--text-dim); }
+
+    /* Experience */
+    .timeline { position:relative; padding-left:28px; }
+    .timeline::before { content:''; position:absolute; left:0; top:8px; bottom:8px; width:1px; background:linear-gradient(180deg,var(--accent),var(--border),transparent); }
+    .exp-card { position:relative; margin-bottom:48px; padding:28px 32px; background:var(--surface); border:1px solid var(--border); border-radius:10px; transition:border-color 0.25s,box-shadow 0.25s; }
+    .exp-card::before { content:''; position:absolute; left:-35px; top:32px; width:12px; height:12px; border-radius:50%; background:var(--accent); box-shadow:0 0 12px rgba(45,126,255,0.5); border:2px solid var(--bg); }
+    .exp-card:hover { border-color:rgba(45,126,255,0.35); box-shadow:0 8px 32px rgba(45,126,255,0.08); }
+    .exp-badge { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:20px; font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:16px; }
+    .badge-current { background:rgba(0,212,160,0.1); border:1px solid rgba(0,212,160,0.25); color:var(--green); }
+    .badge-past { background:rgba(45,126,255,0.08); border:1px solid rgba(45,126,255,0.2); color:var(--accent); }
+    .exp-title { font-family:'Syne',sans-serif; font-size:20px; font-weight:700; color:var(--text); margin-bottom:4px; }
+    .exp-company { font-size:13px; color:var(--accent); font-weight:500; margin-bottom:4px; }
+    .exp-period { font-size:12px; color:var(--text-dim); margin-bottom:20px; }
+    .exp-bullets { list-style:none; }
+    .exp-bullets li { position:relative; padding-left:18px; font-size:14px; color:var(--text-mid); line-height:1.6; margin-bottom:8px; }
+    .exp-bullets li::before { content:''; position:absolute; left:0; top:9px; width:6px; height:1px; background:var(--accent); opacity:0.6; }
+    .exp-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:18px; }
+    .exp-tag { padding:3px 10px; border-radius:4px; font-size:11px; color:var(--text-dim); background:var(--bg); border:1px solid var(--border); }
+
+    /* Education */
+    .edu-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .edu-card { padding:24px 28px; background:var(--surface); border:1px solid var(--border); border-radius:10px; transition:all 0.2s; position:relative; overflow:hidden; }
+    .edu-card::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--accent),var(--purple)); opacity:0; transition:opacity 0.2s; }
+    .edu-card:hover { border-color:rgba(45,126,255,0.3); }
+    .edu-card:hover::after { opacity:1; }
+    .edu-degree { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:var(--text); margin-bottom:6px; line-height:1.3; }
+    .edu-school { font-size:12.5px; color:var(--accent); margin-bottom:4px; }
+    .edu-year { font-size:11.5px; color:var(--text-dim); }
+
+    /* Languages */
+    .lang-row { display:flex; gap:16px; }
+    .lang-card { flex:1; padding:24px 28px; background:var(--surface); border:1px solid var(--border); border-radius:10px; }
+    .lang-name { font-family:'Syne',sans-serif; font-size:18px; font-weight:700; color:var(--text); margin-bottom:10px; }
+    .lang-skills { display:flex; flex-wrap:wrap; gap:6px; }
+    .lang-pill { padding:3px 10px; border-radius:4px; font-size:11px; color:var(--text-dim); background:var(--bg); border:1px solid var(--border); }
+    .lang-level { margin-top:12px; height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
+    .lang-bar { height:100%; background:linear-gradient(90deg,var(--accent),var(--purple)); border-radius:2px; }
+
+    /* Footer */
+    .footer { padding:48px 72px; display:flex; align-items:center; justify-content:space-between; }
+    .footer-name { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; color:var(--text); }
+    .footer-note { font-size:12px; color:var(--text-dim); margin-top:2px; }
+    .footer-links { display:flex; gap:12px; }
+    .footer-link { display:flex; align-items:center; gap:6px; padding:8px 14px; font-size:12px; color:var(--text-mid); text-decoration:none; border:1px solid var(--border); border-radius:5px; transition:all 0.2s; }
+    .footer-link:hover { color:var(--accent); border-color:var(--accent); background:var(--glow2); }
+
+    /* Scroll Reveal */
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity 0.6s ease,transform 0.6s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+
+    /* Mobile */
+    @media(max-width:1100px) { .projects-grid { grid-template-columns:repeat(2,1fr); } .project-card.featured { grid-column:span 2; } }
+    @media(max-width:900px) {
+      .layout { grid-template-columns:1fr; }
+      .sidebar { position:static; height:auto; padding:32px 24px; border-right:none; border-bottom:1px solid var(--border); }
+      nav { display:none; }
+      .hero,.section-pad { padding:52px 28px; }
+      section { padding:52px 28px; }
+      .hero-stats { gap:20px; }
+      .edu-grid { grid-template-columns:1fr; }
+      .lang-row { flex-direction:column; }
+      .footer { flex-direction:column; gap:20px; text-align:center; }
+      .hero-grid-line { display:none; }
+      .projects-grid { grid-template-columns:1fr; }
+      .project-card.featured { grid-column:span 1; }
+    }
+    @media(max-width:600px) { .hero-name { font-size:44px; letter-spacing:-2px; } .stat-num { font-size:28px; } }
+    @media(prefers-reduced-motion:reduce) { .reveal { opacity:1; transform:none; } *{ animation:none !important; } }
+  </style>
+</head>
+<body>
+<div class="mesh-bg"></div>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-logo">Aswin<br>Prakash</div>
+      <div class="sidebar-role">Senior Graphic Designer</div>
+    </div>
+    <div class="sidebar-avatar" aria-hidden="true">AP</div>
+    <nav aria-label="Page sections">
+      <div class="nav-label">Navigate</div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about" class="active"><span class="nav-dot"></span>About</a></li>
+        <li><a href="#portfolio"><span class="nav-dot"></span>Portfolio</a></li>
+        <li><a href="#skills"><span class="nav-dot"></span>Skills</a></li>
+        <li><a href="#tools"><span class="nav-dot"></span>Tools</a></li>
+        <li><a href="#experience"><span class="nav-dot"></span>Experience</a></li>
+        <li><a href="#education"><span class="nav-dot"></span>Education</a></li>
+        <li><a href="#languages"><span class="nav-dot"></span>Languages</a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-contact">
+      <div class="sidebar-divider"></div>
+      <div class="status-badge" style="margin-bottom:18px;"><span class="status-dot"></span>Available for opportunities</div>
+      <a href="tel:+918921969048" class="contact-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013 11.81a19.79 19.79 0 01-3.07-8.67A2 2 0 011.92 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        +91 89219 69048
+      </a>
+      <a href="mailto:aswinchikku111@gmail.com" class="contact-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        aswinchikku111@gmail.com
+      </a>
+      <a href="https://behance.net/Aswinjp" target="_blank" rel="noopener" class="contact-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.2.836 1.884 2.109 1.884.791 0 1.401-.408 1.647-.999l2zm-7.735-4h3.938c-.062-1.418-.91-1.95-1.926-1.95-1.204 0-1.894.71-2.012 1.95z"/></svg>
+        Behance Portfolio
+      </a>
+      <a href="https://linkedin.com/in/aswin-j-p" target="_blank" rel="noopener" class="contact-item">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn Profile
+      </a>
+      <span class="contact-item" style="cursor:default;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Chengannur, Kerala, India
+      </span>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Hero -->
+    <section id="about" class="hero">
+      <div class="hero-eyebrow"><span class="hero-tag">Portfolio Resume</span><span class="hero-line"></span></div>
+      <h1 class="hero-name">Senior<br><span class="accent-word">Graphic</span><br>Designer.</h1>
+      <p class="hero-sub">Crafting brand identities, digital experiences, and marketing campaigns that communicate with precision — for companies that care about how they look.</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num"><span class="counter" data-target="4">0</span><span class="unit">+</span></div>
+          <div class="stat-label">Years experience</div>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-item">
+          <div class="stat-num"><span class="counter" data-target="300">0</span><span class="unit">+</span></div>
+          <div class="stat-label">Creatives delivered</div>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-item">
+          <div class="stat-num"><span class="counter" data-target="20">0</span><span class="unit">+</span></div>
+          <div class="stat-label">Corporate clients</div>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-item">
+          <div class="stat-num"><span class="counter" data-target="100">0</span><span class="unit">%</span></div>
+          <div class="stat-label">On-time delivery</div>
+        </div>
+      </div>
+      <div class="hero-cta">
+        <a href="mailto:aswinchikku111@gmail.com" class="btn btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Get in touch
+        </a>
+        <a href="https://behance.net/Aswinjp" target="_blank" rel="noopener" class="btn btn-ghost">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          View on Behance
+        </a>
+      </div>
+      <div class="hero-grid-line" aria-hidden="true">
+        <div class="hgl"></div><div class="hgl"></div><div class="hgl"></div>
+        <div class="hgl"></div><div class="hgl"></div><div class="hgl"></div>
+        <div class="hgl"></div><div class="hgl"></div><div class="hgl"></div>
+      </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section id="portfolio">
+      <div class="portfolio-meta reveal">
+        <div class="section-header" style="margin-bottom:0;">
+          <div class="section-tag">Selected Work</div>
+          <h2 class="section-title">Projects</h2>
+        </div>
+        <a href="https://www.behance.net/Aswinjp" target="_blank" rel="noopener" class="behance-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.2.836 1.884 2.109 1.884.791 0 1.401-.408 1.647-.999l2zm-7.735-4h3.938c-.062-1.418-.91-1.95-1.926-1.95-1.204 0-1.894.71-2.012 1.95z"/></svg>
+          View full Behance profile
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="portfolio-filters reveal">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="branding">Branding</button>
+        <button class="filter-btn" data-filter="ui">UI Design</button>
+        <button class="filter-btn" data-filter="print">Print & Media</button>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="projects-grid" id="projectsGrid">
+
+        <!-- 1. Aspire Gear Brand — FEATURED -->
+        <a href="https://www.behance.net/gallery/212777113/Aspire-Gear-Brand"
+           target="_blank" rel="noopener"
+           class="project-card featured reveal"
+           data-category="branding">
+          <div class="proj-thumb">
+            <img
+              src="https://mir-s3-cdn-cf.behance.net/projects/404/2d8aee212777113.6873b75ecf240.jpg"
+              alt="Aspire Gear Brand project thumbnail"
+              loading="lazy"
+            />
+            <span class="proj-featured-tag">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+              Featured
+            </span>
+            <span class="proj-stats-tag">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              1,118
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px;"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              71
+            </span>
+            <div class="proj-overlay">
+              <span class="overlay-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Open on Behance
+              </span>
+            </div>
+          </div>
+          <div class="proj-info">
+            <div class="proj-category">Brand Identity</div>
+            <div class="proj-title">Aspire Gear Brand</div>
+            <div class="proj-desc">Complete brand identity system for a performance gear label — logo, color system, typography, and packaging guidelines built for scalability.</div>
+            <div class="proj-footer">
+              <span class="proj-views">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                1,118 views
+              </span>
+              <span class="proj-likes">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                71 appreciations
+              </span>
+              <span class="proj-arrow">→</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 2. Desllara Brand Guideline -->
+        <a href="https://www.behance.net/gallery/199666485/Desllara-Brand-Guideline"
+           target="_blank" rel="noopener"
+           class="project-card reveal"
+           data-category="branding">
+          <div class="proj-thumb">
+            <img
+              src="https://mir-s3-cdn-cf.behance.net/projects/404/799595199666485.68f1fdbc0701c.jpg"
+              alt="Desllara Brand Guideline thumbnail"
+              loading="lazy"
+            />
+            <span class="proj-stats-tag">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              206
+            </span>
+            <div class="proj-overlay">
+              <span class="overlay-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Open on Behance
+              </span>
+            </div>
+          </div>
+          <div class="proj-info">
+            <div class="proj-category">Brand Guidelines</div>
+            <div class="proj-title">Desllara Brand Guideline</div>
+            <div class="proj-desc">Comprehensive brand guideline document defining visual language, usage rules, and identity standards for consistent cross-channel application.</div>
+            <div class="proj-footer">
+              <span class="proj-views">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                206 views
+              </span>
+              <span class="proj-likes">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                2 appreciations
+              </span>
+              <span class="proj-arrow">→</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 3. 233 Real-estate Mood board -->
+        <a href="https://www.behance.net/gallery/177340089/233-Real-estate-Mood-board"
+           target="_blank" rel="noopener"
+           class="project-card reveal"
+           data-category="print">
+          <div class="proj-thumb">
+            <img
+              src="https://mir-s3-cdn-cf.behance.net/projects/404/f6583e177340089.Y3JvcCwxNjE2LDEyNjQsMCww.png"
+              alt="233 Real-estate Mood board thumbnail"
+              loading="lazy"
+            />
+            <span class="proj-stats-tag">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              191
+            </span>
+            <div class="proj-overlay">
+              <span class="overlay-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Open on Behance
+              </span>
+            </div>
+          </div>
+          <div class="proj-info">
+            <div class="proj-category">Mood Board · Real Estate</div>
+            <div class="proj-title">233 Real-Estate Mood Board</div>
+            <div class="proj-desc">Visual direction and mood board for a real-estate brand — exploring palette, texture, and photography style to anchor the campaign aesthetic.</div>
+            <div class="proj-footer">
+              <span class="proj-views">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                191 views
+              </span>
+              <span class="proj-likes">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                2 appreciations
+              </span>
+              <span class="proj-arrow">→</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 4. Ball. -->
+        <a href="https://www.behance.net/gallery/198641379/Ball"
+           target="_blank" rel="noopener"
+           class="project-card reveal"
+           data-category="ui">
+          <div class="proj-thumb">
+            <img
+              src="https://mir-s3-cdn-cf.behance.net/projects/404/c97e91198641379.Y3JvcCwxNjE2LDEyNjQsMCww.png"
+              alt="Ball UI Design project thumbnail"
+              loading="lazy"
+            />
+            <span class="proj-stats-tag">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              155
+            </span>
+            <div class="proj-overlay">
+              <span class="overlay-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Open on Behance
+              </span>
+            </div>
+          </div>
+          <div class="proj-info">
+            <div class="proj-category">UI Design</div>
+            <div class="proj-title">Ball.</div>
+            <div class="proj-desc">A clean UI design exploration — interface layouts, components, and visual hierarchy built for a sports-focused digital product.</div>
+            <div class="proj-footer">
+              <span class="proj-views">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                155 views
+              </span>
+              <span class="proj-likes">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                10 appreciations
+              </span>
+              <span class="proj-arrow">→</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 5. Slay -->
+        <a href="https://www.behance.net/gallery/198239895/Slay"
+           target="_blank" rel="noopener"
+           class="project-card reveal"
+           data-category="branding">
+          <div class="proj-thumb">
+            <img
+              src="https://mir-s3-cdn-cf.behance.net/projects/404/db6777198239895.Y3JvcCwxNjE2LDEyNjQsMCww.png"
+              alt="Slay project thumbnail"
+              loading="lazy"
+            />
+            <span class="proj-stats-tag">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              101
+            </span>
+            <div class="proj-overlay">
+              <span class="overlay-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Open on Behance
+              </span>
+            </div>
+          </div>
+          <div class="proj-info">
+            <div class="proj-category">Visual Identity</div>
+            <div class="proj-title">Slay</div>
+            <div class="proj-desc">Bold visual identity and graphic design project — expressive typography, strong visual language, and a distinctive design direction.</div>
+            <div class="proj-footer">
+              <span class="proj-views">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                101 views
+              </span>
+              <span class="proj-likes">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                4 appreciations
+              </span>
+              <span class="proj-arrow">→</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 6. Jadoo -->
+        <a href="https://www.behance.net/gallery/176555203/Jadoo"
+           target="_blank" rel="noopener"
+           class="project-card reveal"
+           data-category="print">
+          <div class="proj-thumb">
+            <img
+              src="https://mir-s3-cdn-cf.behance.net/projects/404/b8b841176555203.Y3JvcCwxMzk2LDEwOTIsNDEsMA.jpg"
+              alt="Jadoo project thumbnail"
+              loading="lazy"
+            />
+            <span class="proj-stats-tag">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              124
+            </span>
+            <div class="proj-overlay">
+              <span class="overlay-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Open on Behance
+              </span>
+            </div>
+          </div>
+          <div class="proj-info">
+            <div class="proj-category">UI · Digital Design</div>
+            <div class="proj-title">Jadoo</div>
+            <div class="proj-desc">Digital design project with a vibrant, expressive visual approach — layout composition and digital illustration for a creative product.</div>
+            <div class="proj-footer">
+              <span class="proj-views">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                124 views
+              </span>
+              <span class="proj-likes">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                4 appreciations
+              </span>
+              <span class="proj-arrow">→</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 7. Cover Redesign -->
+        <a href="https://www.behance.net/gallery/169764851/Cover-Redesign"
+           target="_blank" rel="noopener"
+           class="project-card reveal"
+           data-category="print">
+          <div class="proj-thumb">
+            <img
+              src="https://mir-s3-cdn-cf.behance.net/projects/404/f22740169764851.Y3JvcCwxNjE2LDEyNjQsMCww.png"
+              alt="Cover Redesign project thumbnail"
+              loading="lazy"
+            />
+            <span class="proj-stats-tag">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              117
+            </span>
+            <div class="proj-overlay">
+              <span class="overlay-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Open on Behance
+              </span>
+            </div>
+          </div>
+          <div class="proj-info">
+            <div class="proj-category">Print · Redesign</div>
+            <div class="proj-title">Cover Redesign</div>
+            <div class="proj-desc">A print design exercise in editorial reimagination — rethinking cover layout, hierarchy, and visual storytelling for maximum shelf impact.</div>
+            <div class="proj-footer">
+              <span class="proj-views">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                117 views
+              </span>
+              <span class="proj-likes">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                3 appreciations
+              </span>
+              <span class="proj-arrow">→</span>
+            </div>
+          </div>
+        </a>
+
+      </div><!-- /projects-grid -->
+
+      <!-- Behance CTA banner -->
+      <div class="reveal" style="margin-top:36px; padding:28px 32px; background:var(--surface); border:1px solid var(--border); border-radius:10px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'Syne',sans-serif; font-size:16px; font-weight:700; color:var(--text); margin-bottom:4px;">See the full picture on Behance</div>
+          <div style="font-size:13px; color:var(--text-dim);">2,345 total views · 105 appreciations · 7 published projects</div>
+        </div>
+        <a href="https://www.behance.net/Aswinjp" target="_blank" rel="noopener" class="btn btn-primary" style="flex-shrink:0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.2.836 1.884 2.109 1.884.791 0 1.401-.408 1.647-.999l2zm-7.735-4h3.938c-.062-1.418-.91-1.95-1.926-1.95-1.204 0-1.894.71-2.012 1.95z"/></svg>
+          Open Behance Profile
+        </a>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+      <div class="section-header reveal"><div class="section-tag">Capabilities</div><h2 class="section-title">Core Skills</h2></div>
+      <div class="skills-grid reveal">
+        <div class="skill-chip">Visual Branding & Identity</div>
+        <div class="skill-chip">Logo Design</div>
+        <div class="skill-chip">Marketing Campaigns</div>
+        <div class="skill-chip">Digital Design</div>
+        <div class="skill-chip">UI Design & Layouts</div>
+        <div class="skill-chip">Responsive Web Design</div>
+        <div class="skill-chip">Landing Page Design</div>
+        <div class="skill-chip">Dashboard UI</div>
+        <div class="skill-chip">Prototyping</div>
+        <div class="skill-chip">Design Systems</div>
+        <div class="skill-chip">UI Components</div>
+        <div class="skill-chip">Print & Digital Media</div>
+        <div class="skill-chip">Brochure & Banner</div>
+        <div class="skill-chip">Marketing Collateral</div>
+        <div class="skill-chip">Typography</div>
+        <div class="skill-chip">Color Theory</div>
+        <div class="skill-chip">Photo Composition</div>
+        <div class="skill-chip">Corporate Presentation</div>
+        <div class="skill-chip">Client Presentations</div>
+        <div class="skill-chip">Brand Consistency</div>
+      </div>
+    </section>
+
+    <!-- Tools -->
+    <section id="tools">
+      <div class="section-header reveal"><div class="section-tag">Software</div><h2 class="section-title">Tools & Software</h2></div>
+      <div class="tools-row reveal">
+        <div class="tool-card">
+          <div class="tool-icon" style="background:rgba(49,177,255,0.12);color:#31B1FF;">Ps</div>
+          <div><div class="tool-name">Adobe Photoshop</div><div class="tool-sub">Image editing & compositing</div></div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-icon" style="background:rgba(255,154,49,0.12);color:#FF9A31;">Ai</div>
+          <div><div class="tool-name">Adobe Illustrator</div><div class="tool-sub">Vector design & illustration</div></div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-icon" style="background:rgba(255,49,102,0.12);color:#FF3166;">Id</div>
+          <div><div class="tool-name">Adobe InDesign</div><div class="tool-sub">Print & layout design</div></div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-icon" style="background:rgba(168,85,247,0.12);color:#A855F7;">Fg</div>
+          <div><div class="tool-name">Figma</div><div class="tool-sub">UI/UX & prototyping</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience">
+      <div class="section-header reveal"><div class="section-tag">Career</div><h2 class="section-title">Professional Experience</h2></div>
+      <div class="timeline">
+        <div class="exp-card reveal">
+          <div class="exp-badge badge-current"><span style="width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block;"></span> Current Role</div>
+          <h3 class="exp-title">Senior Graphic Designer</h3>
+          <div class="exp-company">Vidzpros Services — Bengaluru, India</div>
+          <div class="exp-period">November 2023 – Present</div>
+          <ul class="exp-bullets">
+            <li>Designed 300+ marketing creatives — brochures, banners, social media posts, and branding materials for digital and print campaigns.</li>
+            <li>Managed design projects for 20+ corporate clients, delivering brand identity and marketing collateral on time and on brief.</li>
+            <li>Achieved a 100% on-time project completion rate through end-to-end design production workflow management.</li>
+            <li>Collaborated with marketing and development teams to maintain consistent brand identity across all digital and print touchpoints.</li>
+            <li>Designed responsive website layouts, landing pages, dashboard interfaces, and reusable UI components in Figma with developer collaboration.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">Brand Identity</span><span class="exp-tag">Figma</span><span class="exp-tag">UI Design</span><span class="exp-tag">Print</span><span class="exp-tag">Digital Campaigns</span><span class="exp-tag">Client Management</span>
+          </div>
+        </div>
+        <div class="exp-card reveal">
+          <div class="exp-badge badge-past">Previous</div>
+          <h3 class="exp-title">Junior Graphic Designer</h3>
+          <div class="exp-company">Maxval Technology Pvt. Ltd. — Mumbai, India</div>
+          <div class="exp-period">September 2021 – September 2023</div>
+          <ul class="exp-bullets">
+            <li>Developed digital and print-ready graphics for marketing campaigns and corporate communications.</li>
+            <li>Assisted in concept development during early-stage project planning with senior designers.</li>
+            <li>Created brochures, banners, and corporate branding assets that strengthened client brand identity.</li>
+            <li>Applied core design principles — layout, composition, typography, and color theory — to deliver professional, client-ready results.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">Print Design</span><span class="exp-tag">Concept Development</span><span class="exp-tag">Brochures</span><span class="exp-tag">Typography</span><span class="exp-tag">Color Theory</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education">
+      <div class="section-header reveal"><div class="section-tag">Background</div><h2 class="section-title">Education</h2></div>
+      <div class="edu-grid reveal">
+        <div class="edu-card"><div class="edu-degree">Higher Diploma in Graphic Design & Visual Effects</div><div class="edu-school">Image Creative Education Center</div><div class="edu-year">December 2021</div></div>
+        <div class="edu-card"><div class="edu-degree">Higher Secondary Education (Commerce)</div><div class="edu-school">G H S S Thiruvanvandoor</div><div class="edu-year">March 2017</div></div>
+        <div class="edu-card"><div class="edu-degree">High School</div><div class="edu-school">S N V S H S Thiruvalla</div><div class="edu-year">March 2015</div></div>
+      </div>
+    </section>
+
+    <!-- Languages -->
+    <section id="languages">
+      <div class="section-header reveal"><div class="section-tag">Communication</div><h2 class="section-title">Languages</h2></div>
+      <div class="lang-row reveal">
+        <div class="lang-card">
+          <div class="lang-name">English</div>
+          <div class="lang-skills"><span class="lang-pill">Speaking</span><span class="lang-pill">Listening</span><span class="lang-pill">Writing</span></div>
+          <div class="lang-level"><div class="lang-bar" style="width:90%;"></div></div>
+        </div>
+        <div class="lang-card">
+          <div class="lang-name">Malayalam</div>
+          <div class="lang-skills"><span class="lang-pill">Speaking</span><span class="lang-pill">Listening</span><span class="lang-pill">Writing</span></div>
+          <div class="lang-level"><div class="lang-bar" style="width:100%;"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div>
+        <div class="footer-name">Aswin Prakash</div>
+        <div class="footer-note">Senior Graphic Designer · Kerala, India</div>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:aswinchikku111@gmail.com" class="footer-link">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email
+        </a>
+        <a href="https://behance.net/Aswinjp" target="_blank" rel="noopener" class="footer-link">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.2.836 1.884 2.109 1.884.791 0 1.401-.408 1.647-.999l2zm-7.735-4h3.938c-.062-1.418-.91-1.95-1.926-1.95-1.204 0-1.894.71-2.012 1.95z"/></svg>
+          Behance
+        </a>
+        <a href="https://linkedin.com/in/aswin-j-p" target="_blank" rel="noopener" class="footer-link">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  // ── Scroll Reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 55);
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.06 });
+  reveals.forEach(el => revealObs.observe(el));
+
+  // ── Counter Animation
+  const counters = document.querySelectorAll('.counter');
+  let counted = false;
+  const statsEl = document.querySelector('.hero-stats');
+  if (statsEl) {
+    const cObs = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !counted) {
+        counted = true;
+        counters.forEach(c => {
+          const target = +c.dataset.target;
+          const dur = 1400;
+          const step = Math.max(1, Math.floor(target / (dur / 16)));
+          let cur = 0;
+          const t = setInterval(() => {
+            cur = Math.min(cur + step, target);
+            c.textContent = cur;
+            if (cur >= target) clearInterval(t);
+          }, 16);
+        });
+      }
+    }, { threshold: 0.3 });
+    cObs.observe(statsEl);
+  }
+
+  // ── Active Nav
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('#navLinks a');
+  const navObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector('#navLinks a[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-35% 0px -60% 0px' });
+  sections.forEach(s => navObs.observe(s));
+
+  // ── Portfolio Filter
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const projectCards = document.querySelectorAll('.project-card');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      projectCards.forEach(card => {
+        const cat = card.dataset.category;
+        if (filter === 'all' || cat === filter) {
+          card.style.display = 'block';
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(12px)';
+          requestAnimationFrame(() => {
+            card.style.transition = 'opacity 0.35s ease, transform 0.35s ease, border-color 0.3s, box-shadow 0.3s, border 0.3s';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          });
+        } else {
+          card.style.transition = 'opacity 0.2s ease';
+          card.style.opacity = '0';
+          setTimeout(() => { card.style.display = 'none'; }, 200);
+        }
+      });
+      // fix featured span on filter
+      const featured = document.querySelector('.project-card.featured');
+      if (featured && featured.style.display !== 'none') {
+        featured.style.gridColumn = filter === 'all' ? 'span 2' : '1';
+      }
+    });
+  });
+</script>
+</body>
+</html>
